@@ -1,0 +1,155 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dockerImage": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The name of the custom Docker image you want to deploy."
+            }
+        },
+        "dockerRegistryPassword": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The password of the account that is being used to deploy a container from a private Docker registry."
+            }
+        },
+        "dockerRegistryUrl": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The URL of the private registry that contains the custom container being deployed."
+            }
+        },
+        "dockerRegistryUsername": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The username of the account that is being used to deploy a container from a private Docker registry."
+            }
+        },
+        "scmType": {
+            "type": "string",
+            "defaultValue": "None",
+            "allowedValues": [
+                "LocalGit",
+                "None"
+            ],
+            "metadata": {
+                "description": "The type of source control to enable for this web app."
+            }
+        },
+        "webAppName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the web app that is being deployed."
+            }
+        }
+    },
+    "variables": {
+        "dockerImage": "[parameters('dockerImage')]",
+        "dockerRegistryPassword": "[parameters('dockerRegistryPassword')]",
+        "dockerRegistryUrl": "[parameters('dockerRegistryUrl')]",
+        "dockerRegistryUsername": "[parameters('dockerRegistryUsername')]",
+        "planName": "[concat(parameters('webAppName'), '-plan')]",
+        "scmType": "[parameters('scmType')]",
+        "webAppName": "[parameters('webAppName')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "B1",
+                "tier": "Basic",
+                "size": "B1",
+                "family": "B",
+                "capacity": 1
+            },
+            "name": "[variables('planName')]",
+            "apiVersion": "2015-08-01",
+            "kind": "Linux",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[variables('planName')]",
+                "numberOfWorkers": 1,
+                "reserved": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[variables('webAppName')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[variables('webAppName')]",
+                "hostNames": [
+                    "[concat(variables('webAppName'),'.azurewebsites.net')]"
+                ],
+                "enabledHostNames": [
+                    "[concat(variables('webAppName'),'.azurewebsites.net')]",
+                    "[concat(variables('webAppName'),'.scm.azurewebsites.net')]"
+                ],
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(variables('webAppName'),'.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    },
+                    {
+                        "name": "[concat(variables('webAppName'),'.scm.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "6.9.1"
+                        },
+                        {
+                            "name": "DOCKER_CUSTOM_IMAGE_NAME",
+                            "value": "[variables('dockerImage')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "[variables('dockerRegistryUrl')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                            "value": "[variables('dockerRegistryUsername')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                            "value": "[variables('dockerRegistryPassword')]"
+                        }
+                    ],
+                    "scmType": "[variables('scmType')]"
+                }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2014-11-01",
+                    "name": "web",
+                    "type": "config",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"
+                    ],
+                    "properties": {
+                        "nodeVersion": "6.9.1"
+                    },
+                    "nodeVersion": "6.9.1"
+                }
+            ],
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+            ]
+        }
+    ]
+}

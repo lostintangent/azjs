@@ -1,0 +1,91 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "scmType": {
+            "type": "string",
+            "defaultValue": "None",
+            "allowedValues": [
+                "LocalGit",
+                "None"
+            ],
+            "metadata": {
+                "description": "The type of source control to enable for this web app."
+            }
+        },
+        "webAppName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the web app that is being deployed."
+            }
+        }
+    },
+    "variables": {
+        "planName": "[concat(parameters('webAppName'), '-plan')]",
+        "scmType": "[parameters('scmType')]",
+        "webAppName": "[parameters('webAppName')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "B1",
+                "tier": "Basic",
+                "size": "B1",
+                "family": "B",
+                "capacity": 1
+            },
+            "name": "[variables('planName')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[variables('planName')]",
+                "numberOfWorkers": 1
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[variables('webAppName')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[variables('webAppName')]",
+                "hostNames": [
+                    "[concat(variables('webAppName'),'.azurewebsites.net')]"
+                ],
+                "enabledHostNames": [
+                    "[concat(variables('webAppName'),'.azurewebsites.net')]",
+                    "[concat(variables('webAppName'),'.scm.azurewebsites.net')]"
+                ],
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(variables('webAppName'),'.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    },
+                    {
+                        "name": "[concat(variables('webAppName'),'.scm.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "6.9.1"
+                        }
+                    ],
+                    "scmType": "[variables('scmType')]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+            ]
+        }
+    ]
+}
