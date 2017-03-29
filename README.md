@@ -71,6 +71,8 @@ This will behave exactly like the non-Git workflow, except it will also add a ne
 git push azure master
 ```
 
+<img src="https://cloud.githubusercontent.com/assets/116461/24469557/b3a2ff6e-1470-11e7-8e0f-2fc0b9db9334.png" width="400px" />
+
 #### Remote Git Deployment
 
 If you're already tracking your app via a remote Git repo (e.g. GitHub), you can "connect" your web app to that by running the following command:
