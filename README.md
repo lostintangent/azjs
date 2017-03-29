@@ -47,7 +47,39 @@ This will delete all of the infrastructure that was originally provisioned by ru
 
 ### azjs / azjs up / azjs deploy
 
-> This command is also aliased as `azjs deploy` in order to support users of the Serverless CLI, who may find that naming convention more familiar.
+When you want to deploy a web app and/or push changes to an existing web app, you can quickly do this by CDing into your app directory and running the following command:
+
+```shell
+azjs
+```
+
+> This command is also aliased as `azjs deploy` and `azjs up` in order to support users of the Serverless/Docker CLIs, who may find those naming convention more familiar.
+
+This wil
+
+#### Local Git Deployment
+
+If you'd like to track your app via a local Git repo, and push changes to your web app as if it was another remote, then simply run the following command:
+
+```shell
+azjs up --git
+```
+
+This will behave exactly like the non-Git workflow, except it will also add a new Git remote to your repo called `azure`. Once you've run this, you can simply perform a standard Git push in order to update your app:
+
+```shell
+git push azure master
+```
+
+#### Remote Git Deployment
+
+If you're already tracking your app via a remote Git repo (e.g. GitHub), you can "connect" your web app to that by running the following command:
+
+```shell
+azjs up --git <GIT_REPO_URL>
+```
+
+This will behave similarly to the local Git deployment solution, however, instead of pushing changes directly to your web app, you would push changes to the specified Git repo, and allow the deployed web app to pull updates from it.
 
 ### azjs browse
 
