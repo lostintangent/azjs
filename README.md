@@ -25,7 +25,7 @@ Currently, the Az.js CLI doesn't provide a mechanism for authenticating with you
 * **azureServicePrincipalPassword** - The password of the service principal
 * **azureServicePrincipalTenantId** - The ID of the tenant that the service principal was created in
 
-> These are the same environment variables that are expected from the [Serverless](http://serverless.com) experience for Azure Functions. However, other tools such as Terraform use different names for these variables, so I'll be updating them to support both naming conventions.
+> These are the same environment variables that are expected from the [Serverless](https://serverless.com/framework/docs/providers/azure/guide/credentials/) experience for Azure Functions. However, other tools such as Terraform use different names for these variables, so I'll be updating them to support both naming conventions.
 
 Once that is done, simply CD into a directory that contains a Node.js app and run the following command:
 
