@@ -55,7 +55,7 @@ azjs
 
 > This command is also aliased as `azjs deploy` and `azjs up` in order to support users of the Serverless/Docker CLIs, who may find those naming convention more familiar.
 
-This wil
+This will zip up the contents of your web app and deploy them to Azure. It will then install your NPM dependencies, and begin displaying the log stream from your app's stdout.
 
 #### Local Git Deployment
 
