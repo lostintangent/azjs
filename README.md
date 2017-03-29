@@ -71,7 +71,7 @@ This will behave exactly like the non-Git workflow, except it will also add a ne
 git push azure master
 ```
 
-<img src="https://cloud.githubusercontent.com/assets/116461/24469557/b3a2ff6e-1470-11e7-8e0f-2fc0b9db9334.png" width="400px" />
+<img src="https://cloud.githubusercontent.com/assets/116461/24470553/19047aa6-1474-11e7-8552-5a7d79a4e737.png" width="400px" />
 
 #### Remote Git Deployment
 
