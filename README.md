@@ -83,6 +83,8 @@ azjs up --git <GIT_REPO_URL>
 
 This will behave similarly to the local Git deployment solution, however, instead of pushing changes directly to your web app, you would push changes to the specified Git repo, and allow the deployed web app to pull updates from it.
 
+<img src="https://cloud.githubusercontent.com/assets/116461/24470946/76b12e00-1475-11e7-961f-1b54454026b9.png" width="600px" />
+
 ### azjs browse
 
 While running `azjs` will copy your app's URL to the clipboard, if you'd like to automatically have it launch a your default browser, and navigate to your app's deployed URL, you can simply run the following command at any time:
