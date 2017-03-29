@@ -72,5 +72,5 @@ azjs down
 While running `azjs` will automatically begin streaming your app's stdout after deployment, if you'd like to re-open the log stream at any other time (e.g. you'd like to view the logs for an already deployed version of your app), you can simply run the following command:
 
 ```shell
-azjs browse
+azjs logs
 ```
