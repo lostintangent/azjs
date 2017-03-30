@@ -78,11 +78,7 @@ If you'd like to track your app via a local Git repo, and push changes to your w
 azjs deploy --git
 ```
 
-This will behave exactly like the non-Git workflow, except it will also add a new Git remote to your repo called `azure`. Once you've run this, you can simply perform a standard Git push in order to update your app:
-
-```shell
-git push azure master
-```
+This will behave exactly like the non-Git workflow, except it will also add a new Git remote to your repo called `azure` and then run a `git push` for you. If you'd like to suppress the automatic `git push`, simply pass the `--no-sync` flag, and do the push to the added `azure` remote as appropriate.
 
 <img width="383" alt="screen shot 2017-03-29 at 11 36 58 pm" src="https://cloud.githubusercontent.com/assets/116461/24490703/a5c92522-14d8-11e7-8176-fe476c1683ae.png">
 
@@ -91,7 +87,7 @@ git push azure master
 If you're already tracking your app via a remote Git repo (e.g. GitHub), you can "connect" your web app to that by running the following command:
 
 ```shell
-azjs deploy --git <GIT_REPO_URL>
+azjs deploy --git-url <GIT_REPO_URL>
 ```
 
 This will behave similarly to the local Git deployment solution, however, instead of pushing changes directly to your web app, you would push changes to the specified Git repo, and allow the deployed web app to pull updates from it.
