@@ -30,7 +30,7 @@ Currently, the Az.js CLI doesn't provide a mechanism for authenticating with you
 Once that is done, simply CD into a directory that contains a Node.js app and run the following command:
 
 ```shell
-azjs
+azjs deploy
 ```
 
 This will provision the neccessary infrastructure in your Azure account (using the provided service principal credentials), deploy your app and then begin streaming stdout to your terminal. Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
@@ -38,22 +38,20 @@ This will provision the neccessary infrastructure in your Azure account (using t
 When you're done, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and running the following command:
 
 ```shell
-azjs down
+azjs remove
 ```
 
 This will delete all of the infrastructure that was originally provisioned by running `azjs`.
 
 ## CLI Reference
 
-### azjs / azjs up / azjs deploy
+### azjs deploy
 
 When you want to deploy a web app and/or push changes to an existing web app, you can quickly do this by CDing into your app directory and running the following command:
 
 ```shell
-azjs
+azjs deploy
 ```
-
-> This command is also aliased as `azjs deploy` and `azjs up` in order to support users of the Serverless/Docker CLIs, who may find those naming convention more familiar.
 
 This will zip up the contents of your web app and deploy them to Azure. It will then install your NPM dependencies, and begin displaying the log stream from your app's stdout.
 
@@ -62,7 +60,7 @@ This will zip up the contents of your web app and deploy them to Azure. It will 
 If you'd like to track your app via a local Git repo, and push changes to your web app as if it was another remote, then simply run the following command:
 
 ```shell
-azjs up --git
+azjs deploy --git
 ```
 
 This will behave exactly like the non-Git workflow, except it will also add a new Git remote to your repo called `azure`. Once you've run this, you can simply perform a standard Git push in order to update your app:
@@ -78,7 +76,7 @@ git push azure master
 If you're already tracking your app via a remote Git repo (e.g. GitHub), you can "connect" your web app to that by running the following command:
 
 ```shell
-azjs up --git <GIT_REPO_URL>
+azjs deploy --git <GIT_REPO_URL>
 ```
 
 This will behave similarly to the local Git deployment solution, however, instead of pushing changes directly to your web app, you would push changes to the specified Git repo, and allow the deployed web app to pull updates from it.
@@ -93,15 +91,13 @@ While running `azjs` will copy your app's URL to the clipboard, if you'd like to
 azjs browse
 ```
 
-### azjs down / remove
+### azjs remove
 
 When you no longer need an app deployed in Azure, you can quickly delete all of its backing resources by running the following command:
 
 ```shell
-azjs down
+azjs remove
 ```
-
-> This command is also aliased as `azjs remove` in order to support users of the Serverless CLI, who may find that naming convention more familiar.
 
 ### azjs logs
 
