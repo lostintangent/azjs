@@ -4,7 +4,7 @@ Az.js is a command line tool which attempts to provide an opinionated (and hopef
 
 This CLI is very much inspired by the amazing work done by other tools such as [Docker](http://www.docker.com), [Now](http://zeit.co/now) and [Serverless](http://serverless.com), which are making great strides in the pursuit of simplicity, and are benchmarks for what CLI-driven workflows can and should look like moving forward.
 
-<img src="https://cloud.githubusercontent.com/assets/116461/24375545/87aedc0e-12ed-11e7-93c7-f9e6afcc1a0e.png" width="700px" />
+<img src="https://cloud.githubusercontent.com/assets/116461/24490140/129080e0-14d6-11e7-93b9-b5175c1e131f.png" width="500px" />
 
 ## Getting Started
 
@@ -35,6 +35,8 @@ azjs deploy
 
 This will provision the neccessary infrastructure in your Azure account (using the provided service principal credentials), deploy your app and then begin streaming stdout to your terminal. Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
 
+<img width="643" alt="screen shot 2017-03-29 at 11 24 36 pm" src="https://cloud.githubusercontent.com/assets/116461/24490319/f76485e0-14d6-11e7-9e04-852af665d49a.png">
+
 When you're done, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and running the following command:
 
 ```shell
@@ -43,7 +45,20 @@ azjs remove
 
 This will delete all of the infrastructure that was originally provisioned by running `azjs`.
 
-## CLI Reference
+## CLI Command Reference
+
+* [Browse](#azjs-browse)
+* [Deploy](#azjs-deploy)
+* [Logs](#azjs-logs)
+* [Remove](#azjs-remove)
+
+### azjs browse
+
+While running `azjs` will copy your app's URL to the clipboard, if you'd like to automatically have it launch a your default browser, and navigate to your app's deployed URL, you can simply run the following command at any time:
+
+```shell
+azjs browse
+```
 
 ### azjs deploy
 
@@ -69,7 +84,7 @@ This will behave exactly like the non-Git workflow, except it will also add a ne
 git push azure master
 ```
 
-<img src="https://cloud.githubusercontent.com/assets/116461/24470553/19047aa6-1474-11e7-8552-5a7d79a4e737.png" width="400px" />
+<img width="383" alt="screen shot 2017-03-29 at 11 36 58 pm" src="https://cloud.githubusercontent.com/assets/116461/24490703/a5c92522-14d8-11e7-8176-fe476c1683ae.png">
 
 #### Remote Git Deployment
 
@@ -83,12 +98,12 @@ This will behave similarly to the local Git deployment solution, however, instea
 
 <img src="https://cloud.githubusercontent.com/assets/116461/24470946/76b12e00-1475-11e7-961f-1b54454026b9.png" width="600px" />
 
-### azjs browse
+### azjs logs
 
-While running `azjs` will copy your app's URL to the clipboard, if you'd like to automatically have it launch a your default browser, and navigate to your app's deployed URL, you can simply run the following command at any time:
+While running `azjs` will automatically begin streaming your app's stdout after deployment, if you'd like to re-open the log stream at any other time (e.g. you'd like to view the logs for an already deployed version of your app), you can simply run the following command:
 
 ```shell
-azjs browse
+azjs logs
 ```
 
 ### azjs remove
@@ -97,12 +112,4 @@ When you no longer need an app deployed in Azure, you can quickly delete all of 
 
 ```shell
 azjs remove
-```
-
-### azjs logs
-
-While running `azjs` will automatically begin streaming your app's stdout after deployment, if you'd like to re-open the log stream at any other time (e.g. you'd like to view the logs for an already deployed version of your app), you can simply run the following command:
-
-```shell
-azjs logs
 ```
