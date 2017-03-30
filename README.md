@@ -84,7 +84,7 @@ This will behave exactly like the non-Git workflow, except it will also add a ne
 git push azure master
 ```
 
-<img src="https://cloud.githubusercontent.com/assets/116461/24470553/19047aa6-1474-11e7-8552-5a7d79a4e737.png" width="400px" />
+<img width="383" alt="screen shot 2017-03-29 at 11 36 58 pm" src="https://cloud.githubusercontent.com/assets/116461/24490703/a5c92522-14d8-11e7-8176-fe476c1683ae.png">
 
 #### Remote Git Deployment
 
