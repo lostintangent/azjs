@@ -80,7 +80,7 @@ azjs deploy --git
 
 This will behave exactly like the non-Git workflow, except it will also add a new Git remote to your repo called `azure` and then run a `git push` for you. If you'd like to suppress the automatic `git push`, simply pass the `--no-sync` flag, and do the push to the added `azure` remote as appropriate.
 
-<img width="383" alt="screen shot 2017-03-29 at 11 36 58 pm" src="https://cloud.githubusercontent.com/assets/116461/24490703/a5c92522-14d8-11e7-8176-fe476c1683ae.png">
+As you make changes to your app, you can simply run `git push azure master` in order to deploy them, as opposed to needing to run `azjs deploy` again.
 
 #### Remote Git Deployment
 
@@ -91,8 +91,6 @@ azjs deploy --git-url <GIT_REPO_URL>
 ```
 
 This will behave similarly to the local Git deployment solution, however, instead of pushing changes directly to your web app, you would push changes to the specified Git repo, and allow the deployed web app to pull updates from it.
-
-<img src="https://cloud.githubusercontent.com/assets/116461/24470946/76b12e00-1475-11e7-961f-1b54454026b9.png" width="600px" />
 
 ### azjs logs
 
