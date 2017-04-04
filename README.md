@@ -6,11 +6,13 @@ This CLI is very much inspired by the amazing work done by other tools such as [
 
 <img src="https://cloud.githubusercontent.com/assets/116461/24490140/129080e0-14d6-11e7-93b9-b5175c1e131f.png" width="500px" />
 
+## Pre-requisites
+
+* [Node.js](https://nodejs.org/en/) v7.6.0+
+* NPM
+* An Azure account [(start your free trial with a $200 credit)](https://azure.microsoft.com/en-us/free)
+
 ## Getting Started
-
-The Az.js CLI is built using [Node.js](https://nodejs.org/en/) and distributed via NPM, and therefore, you'll need to have both installed on your development machine before you can get started. Additionally, Az.js (currently) requires Node.js v7.6.0 or greater (which you should be using anyways!), so if you have an older version installed, please update it before moving on.
-
-> If you aren't already using a Node.js version manager, I would recommend using one, as they can help make it dramatically simpler to updgrade and toggle between Node.js versions. I prefer [NVS](http://github.com/jasongin/nvs) since it is cross platform (it runs on Windows, macOS and Linux), but there are other great ones available as well (e.g. [NVM](https://github.com/creationix/nvm)).
 
 In order to install Az.js, simply run the following NPM command, which will make the `azjs` command globally available:
 
@@ -18,19 +20,19 @@ In order to install Az.js, simply run the following NPM command, which will make
 npm i -g azjs
 ```
 
-Once that is done, simply CD into a directory that contains a Node.js app and run the following command:
+Once that is complete, simply CD into a directory that contains a Node.js app and run the following command:
 
 ```shell
 azjs deploy
 ```
 
-This command will walk you through the process of authentication with your Azure account, and will the provision the neccessary infrasturcutre, deploy your app, and begin streaming stdout toy our terminal.Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
+This command will walk you through the process of authenticating with your Azure account, and will then provision the neccessary infrastructure, deploy your app code, and begin streaming stdout to your terminal. Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
 
 <img width="643" alt="screen shot 2017-03-29 at 11 24 36 pm" src="https://cloud.githubusercontent.com/assets/116461/24490319/f76485e0-14d6-11e7-9e04-852af665d49a.png">
 
-Once you've authenticated once, all subsequent commands will re-use that "session", so that you don't need to continue logging in. If you'd like to explicitly set the credentials that `azjs` uses, see the [authentication reference](#authentication-reference) below.
+Once you've authenticated, all subsequent commands will re-use that login session, so that you don't need to continue authenticating every time you'd like to deploy changes to your app.
 
-When you're done, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and running the following command:
+When you're done with your app, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and running the following command:
 
 ```shell
 azjs remove
@@ -103,11 +105,11 @@ azjs remove
 
 ## Authentication Reference
 
-As mentioned in the "getting started" section, the `azjs` CLI defaults to using an interactive login experience upon first use. However, if you'd like to customize the credentials that `azjs` uses to manage your Azure account, you can set the following four environment variables (each have two variant names):
+The `azjs` CLI defaults to using an interactive login experience, in order to provide a simple getting started experience. However, if you'd like to customize the exact credentials that `azjs` uses to manage your Azure account, you can specify a specific service principal to use for authentication, by setting the following four environment variables (using either of the listed aliases):
 
 * **azureSubId / ARM_SUBSRIPTION_ID** - The ID of the Azure subscription that you'd like to manage resources within
 * **azureServicePrincipalClientId / ARM_CLIENT_ID** - The name of the service principal
 * **azureServicePrincipalPassword / ARM_CLIENT_SECRET** - The password of the service principal
 * **azureServicePrincipalTenantId / ARM_TENANT_ID** - The ID of the tenant that the service principal was created in
 
-> These are the same environment variables that are expected from the [Serverless](https://serverless.com/framework/docs/providers/azure/guide/credentials/) experience for Azure Functions. However, other tools such as Terraform use different names for these variables, so I'll be updating them to support both naming conventions.
+> These are the same environment variables that are expected from the [Serverless](https://serverless.com/framework/docs/providers/azure/guide/credentials/) experience for Azure Functions (`azure*`), and the Terraform Azure builder (`ARM*`), so if you've already set these environment variables in order to use one or both of these tools, then `azjs` will automatically use the same credentials.
