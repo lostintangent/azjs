@@ -18,24 +18,17 @@ In order to install Az.js, simply run the following NPM command, which will make
 npm i -g azjs
 ```
 
-Currently, the Az.js CLI doesn't provide a mechanism for authenticating with your Azure account (coming soon!), but rather, expects to find "service principal" credentials (which is a means for headless/automated tools to manage your Azure account on your behalf) via the following environment variables:
-
-* **azureSubId** - The ID of the Azure subscription that you'd like to manage resources within
-* **azureServicePrincipalClientId** - The name of the service principal
-* **azureServicePrincipalPassword** - The password of the service principal
-* **azureServicePrincipalTenantId** - The ID of the tenant that the service principal was created in
-
-> These are the same environment variables that are expected from the [Serverless](https://serverless.com/framework/docs/providers/azure/guide/credentials/) experience for Azure Functions. However, other tools such as Terraform use different names for these variables, so I'll be updating them to support both naming conventions.
-
 Once that is done, simply CD into a directory that contains a Node.js app and run the following command:
 
 ```shell
 azjs deploy
 ```
 
-This will provision the neccessary infrastructure in your Azure account (using the provided service principal credentials), deploy your app and then begin streaming stdout to your terminal. Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
+This command will walk you through the process of authentication with your Azure account, and will the provision the neccessary infrasturcutre, deploy your app, and begin streaming stdout toy our terminal.Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
 
 <img width="643" alt="screen shot 2017-03-29 at 11 24 36 pm" src="https://cloud.githubusercontent.com/assets/116461/24490319/f76485e0-14d6-11e7-9e04-852af665d49a.png">
+
+Once you've authenticated once, all subsequent commands will re-use that "session", so that you don't need to continue logging in. If you'd like to explicitly set the credentials that `azjs` uses, see the [authentication reference](#authentication-reference) below.
 
 When you're done, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and running the following command:
 
@@ -107,3 +100,14 @@ When you no longer need an app deployed in Azure, you can quickly delete all of 
 ```shell
 azjs remove
 ```
+
+## Authentication Reference
+
+As mentioned in the "getting started" section, the `azjs` CLI defaults to using an interactive login experience upon first use. However, if you'd like to customize the credentials that `azjs` uses to manage your Azure account, you can set the following four environment variables (each have two variant names):
+
+* **azureSubId / ARM_SUBSRIPTION_ID** - The ID of the Azure subscription that you'd like to manage resources within
+* **azureServicePrincipalClientId / ARM_CLIENT_ID** - The name of the service principal
+* **azureServicePrincipalPassword / ARM_CLIENT_SECRET** - The password of the service principal
+* **azureServicePrincipalTenantId / ARM_TENANT_ID** - The ID of the tenant that the service principal was created in
+
+> These are the same environment variables that are expected from the [Serverless](https://serverless.com/framework/docs/providers/azure/guide/credentials/) experience for Azure Functions. However, other tools such as Terraform use different names for these variables, so I'll be updating them to support both naming conventions.

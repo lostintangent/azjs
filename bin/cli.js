@@ -4,7 +4,8 @@ const AzureClient = require("../lib/AzureClient");
 const commands = require("../lib/Commands");
 const didYouMean = require("didyoumean");
 const nodeVersion = require("node-version");
-const { green, red } = require("chalk");
+const { green } = require("chalk");
+const { exit, printLogo } = require("./utils");
 
 if (nodeVersion.major < 6 && nodeVersion.minor < 9) {
     exit("The azjs CLI requires Node v6.9.0 or greater in order to run");
@@ -41,22 +42,13 @@ if (commandName) {
         exit(message);
     }
 
-    const client = new AzureClient();
-    client.login().then(command.handler.bind(null, client, args));
+    if (command.allowAnonymousAccess) {
+        command.handler();
+    } else {
+        const client = new AzureClient();
+        client.login().then(command.handler.bind(null, client, args));
+    }
 } else {
-    console.log(String.raw` ______  ______     __  ______    
-/\  __ \/\___  \   /\ \/\  ___\   
-\ \  __ \/_/  /__ _\_\ \ \___  \  
- \ \_\ \_\/\_____/\_____\/\_____\ 
-  \/_/\/_/\/_____\/_____/\/_____/                                 
-
-An opinionated CLI for deploying and managing Node.js apps on Azure
-`);
-
+    printLogo();
     yargs.showHelp();
 }
-
-function exit(message) {
-    console.error(`${red("[Error]")} ${message}`);
-    process.exit(-1);
-};
