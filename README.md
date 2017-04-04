@@ -10,29 +10,31 @@ This CLI is very much inspired by the amazing work done by other tools such as [
 
 * [Node.js](https://nodejs.org/en/) v7.6.0+
 * NPM
-* An Azure account [(start your free trial with a $200 credit)](https://azure.microsoft.com/en-us/free)
+* Active Azure account ([start a free trial with a $200 credit!](https://azure.microsoft.com/en-us/free))
 
 ## Getting Started
 
-In order to install Az.js, simply run the following NPM command, which will make the `azjs` command globally available:
+In order to install the Az.js CLI, simply run the following NPM command, which will add the `azjs` command to your `PATH`:
 
 ```shell
 npm i -g azjs
 ```
 
-Once that is complete, simply CD into a directory that contains a Node.js app and run the following command:
+Then, simply CD into a directory that contains a Node.js app and run the following command:
 
 ```shell
 azjs deploy
 ```
 
-This command will walk you through the process of authenticating with your Azure account, and will then provision the neccessary infrastructure, deploy your app code, and begin streaming stdout to your terminal. Additionally, it copies the URL of the deployed app to your clipboard, so feel free to open a browser, paste in the URL and browse your app!
+You will be asked to login to your Azure account, and authorize `azjs` to manage Azure resources on your behalf (e.g. create web apps). Paste the provided "device code" into the launched browser (it is automatically copied to your clipboard), complete the authentication, and then return to your terminal, which will begin progressing with the deployment momentarily.
+
+> Note: Once you're successfully authenticated, all subsequent CLI commands will re-use that same login session, so that you don't need to continue authenticating every time you'd like to deploy changes to your app.
+
+As soon as the deploymented is finished, the terminal will begin streaming your app's stdout, and will display the URL you can use to immediately browse/test your deployed app.
 
 <img width="643" alt="screen shot 2017-03-29 at 11 24 36 pm" src="https://cloud.githubusercontent.com/assets/116461/24490319/f76485e0-14d6-11e7-9e04-852af665d49a.png">
 
-Once you've authenticated, all subsequent commands will re-use that login session, so that you don't need to continue authenticating every time you'd like to deploy changes to your app.
-
-When you're done with your app, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and running the following command:
+If you no longer need your app to be deployed on Azure, you can confidently remove all of your Azure resources (to prevent incurring any unexpected charges) by CDing into the app directory again and simply running the following command:
 
 ```shell
 azjs remove
