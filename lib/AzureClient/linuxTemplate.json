@@ -55,7 +55,8 @@
         "dockerRegistryUsername": "[parameters('dockerRegistryUsername')]",
         "planName": "[concat(parameters('webAppName'), '-plan')]",
         "scmType": "[parameters('scmType')]",
-        "webAppName": "[parameters('webAppName')]"
+        "webAppName": "[parameters('webAppName')]",
+        "insightsName": "[concat(parameters('webAppName'), '-insights')]"
     },
     "resources": [
         {
@@ -150,6 +151,25 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
             ]
+        },
+        {
+            "type": "microsoft.insights/components",
+            "kind": "Node.JS",
+            "name": "[variables('insightsName')]",
+            "apiVersion": "2014-04-01",
+            "location": "eastus",
+            "properties": {
+                "ApplicationId": "[variables('insightsName')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
+            ]
         }
-    ]
+    ],
+    "outputs": {
+        "something": {
+            "type": "string",
+            "value": "[reference('Microsoft.Web/sites', variables('webAppName')).InstrumentationKey]"
+        }
+    }
 }

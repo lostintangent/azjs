@@ -19,9 +19,21 @@
         "webAppName": "[parameters('webAppName')]",
         "planName": "[concat(parameters('webAppName'), '-plan')]",
         "gitUrl": "[parameters('gitUrl')]",
-        "branch": "master"
+        "branch": "master",
+        "insightsName": "[concat(parameters('webAppName'), '-insights')]"
     },
     "resources": [
+        {
+            "type": "microsoft.insights/components",
+            "kind": "Node.JS",
+            "name": "[variables('insightsName')]",
+            "apiVersion": "2014-04-01",
+            "location": "eastus",
+            "properties": {
+                "ApplicationId": "[variables('insightsName')]",
+                "Application_Type": "Node.JS"
+            }
+        },
         {
             "type": "Microsoft.Web/serverfarms",
             "sku": {
@@ -74,6 +86,10 @@
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
                             "value": "6.9.1"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(variables('insightsName')).InstrumentationKey]"
                         }
                     ]
                 }
@@ -94,7 +110,8 @@
                 }
             ],
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
+                "[resourceId('Microsoft.insights/components', variables('insightsName'))]"
             ]
         }
     ]
