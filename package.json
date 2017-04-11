@@ -1,7 +1,7 @@
 {
   "name": "azjs",
   "version": "0.1.4",
-  "description": "An opinionated CLI for deploying and managing Node.js-based web apps & APIs on Azure",
+  "description": "An opinionated CLI for deploying and managing Node.js apps on Azure",
   "repository": "https://github.com/lostintangent/azjs",
   "main": "lib/index.js",
   "bin": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "adal-node": "^0.1.22",
     "azure-arm-authorization": "^3.1.1",
+    "azure-arm-documentdb": "^1.0.0-preview",
     "azure-arm-resource": "^1.6.1-preview",
     "azure-arm-website": "^0.11.5",
     "azure-graph": "^1.1.1",

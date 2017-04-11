@@ -1,11 +1,11 @@
 #! /usr/bin/env node
 
 const AzureClient = require("../lib/AzureClient");
-const commands = require("../lib/Commands");
+const commands = require("../lib/commands");
 const didYouMean = require("didyoumean");
 const nodeVersion = require("node-version");
 const { green } = require("chalk");
-const { exit, printLogo } = require("./utils");
+const { exit, printLogo } = require("../lib/util");
 
 if (nodeVersion.major < 6 && nodeVersion.minor < 9) {
     exit("The azjs CLI requires Node v6.9.0 or greater in order to run");
