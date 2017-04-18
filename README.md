@@ -4,7 +4,7 @@ Az.js is a command line tool which attempts to provide an opinionated (and hopef
 
 This CLI is very much inspired by the amazing work done by other tools such as [Docker](http://www.docker.com), [Now](http://zeit.co/now) and [Serverless](http://serverless.com), which are making great strides in the pursuit of simplicity, and are benchmarks for what CLI-driven workflows can and should look like moving forward.
 
-<img src="https://cloud.githubusercontent.com/assets/116461/24816785/b8466ef8-1b9f-11e7-9090-00941165a2fc.png" width="500px" />
+<img src="https://cloud.githubusercontent.com/assets/116461/25108767/0bafcd06-238d-11e7-8ad8-1cd78ebab215.png" width="500px" />
 
 ## Pre-requisites
 
