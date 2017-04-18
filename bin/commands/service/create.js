@@ -16,6 +16,7 @@ module.exports = {
                 .example("azjs service create -t mongodb", "Provisions and binds a new MongoDB server to the app identified by the CWD");
     },
     handler: createAzureHandler((client, { type, name }) => {
+        // TODO: Make this logic dynamic to support n services
         if (type === "mongodb") {
             client.createDocumentDBInstance();
         }

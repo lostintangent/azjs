@@ -4,7 +4,7 @@ Az.js is a command line tool which attempts to provide an opinionated (and hopef
 
 This CLI is very much inspired by the amazing work done by other tools such as [Docker](http://www.docker.com), [Now](http://zeit.co/now) and [Serverless](http://serverless.com), which are making great strides in the pursuit of simplicity, and are benchmarks for what CLI-driven workflows can and should look like moving forward.
 
-<img src="https://cloud.githubusercontent.com/assets/116461/25108767/0bafcd06-238d-11e7-8ad8-1cd78ebab215.png" width="500px" />
+<img src="https://cloud.githubusercontent.com/assets/116461/25140955/d6567076-2416-11e7-9b05-bc9745f98d2e.png" width="500px" />
 
 ## Pre-requisites
 
@@ -31,13 +31,15 @@ You will be asked to login to your Azure account, and authorize `azjs` to manage
 
 As soon as the deploymented is finished, the terminal will begin streaming your app's stdout, and will display the URL you can use to immediately browse/test your deployed app.
 
-<img src="https://cloud.githubusercontent.com/assets/116461/24816898/36cdfdcc-1ba0-11e7-92cc-7308355c1135.png" width="600" />
+<img src="https://cloud.githubusercontent.com/assets/116461/25141329/1b7dfeca-2418-11e7-9920-bf07cc051eda.png" width="600" />
 
 If your app uses MongoDB as its backing database, and you'd like to provision a fully-managed, geo-replicable instance, you can simply run the following command in order to spin one up and inject it's connection string into your app via an environment variable named `MONGO_URL` (view [reference below](#azjs-service) for more details of how this works):
 
 ```shell
 azjs service add -t mongodb
 ```
+
+<img src="https://cloud.githubusercontent.com/assets/116461/25141537/a8c42e08-2418-11e7-9c01-5330554afbaa.png" width="700" />
 
 After your app has been running for a while, and you'd like to check it's telemetry and health, you can simply run the following command:
 
