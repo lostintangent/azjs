@@ -1,54 +1,75 @@
 #! /usr/bin/env node
 
-const AzureClient = require("../lib/AzureClient");
-const commands = require("../lib/commands");
-const didYouMean = require("didyoumean");
 const nodeVersion = require("node-version");
-const { green } = require("chalk");
-const { exit, printLogo } = require("../lib/util");
+const { exit } = require("../lib/util");
 
 if (nodeVersion.major < 6 && nodeVersion.minor < 9) {
     exit("The azjs CLI requires Node v6.9.0 or greater in order to run");
 }
 
-const version = require("../package.json").version;
-let yargs = require("yargs")
+global.createAzureHandler = (func, allowAnonymousAccess = false) => {
+    return (args) => {
+        const AzureClient = require("../lib/AzureClient");
+        const client = new AzureClient();
+
+        const boundFunc = func.bind(null, client, args);
+
+        if (allowAnonymousAccess) {
+            boundFunc();
+        } else {
+            client.login().then(boundFunc);
+        }
+    };
+};
+
+global.createCommandGroup = (name, description) => {
+    return {
+        command: name,
+        desc: description,
+        builder(yargs) {
+            return yargs.commandDir(require("path").join("commands", name));
+        },
+        handler() {
+            require("yargs").showHelp();
+        }
+    };
+};
+
+const { argv } = require("yargs")
+    .commandDir("commands")
     .usage("Usage: azjs <command> [options]")
-    .demandCommand(1, "")
+    .demandCommand(1).strict()
     .help("help").alias("h", "help")
-    .version(version).alias("v", "version")
-    .showHelpOnFail(false)
-    .fail(() => {
-        // Suppress default failure behavior
-    })
+    .version(require("../package.json").version).alias("v", "version")
+    .fail(handleArgParsingFailure)
 
-commands.forEach((command) => {
-    yargs = yargs.command(command.name, command.description, command.builder);
-});
+// TODO: Handle missing required options (e.g. service create command)
+function handleArgParsingFailure(message, error, yargs) {
+    const [,,...specifiedCommands] = process.argv;
 
-const args = yargs.argv;
-const { _: [commandName] } = args;
+    if (specifiedCommands.length === 0) {
+        printLogo();
+        yargs.showHelp();
+    } else {
+        const availableCommands = yargs.getCommands().map(([command]) => command);
+        let message = `Unrecognized command name: "${specifiedCommands.join(" ")}".`;
 
-if (commandName) {
-    const command = commands.find((command) => command.name === commandName);
-    if (!command) {
-        let message = `Specified command not recognized: ${green(commandName)}`;
-        
-        const guessedCommandName = didYouMean(commandName, commands.map((command) => command.name));
-        if (guessedCommandName) {
-            message += `. Did you mean ${green(guessedCommandName)}?`;
-        }        
+        const suggestion = require("didyoumean")(specifiedCommands.pop(), availableCommands);
+        if (suggestion) {
+            message += ` Did you mean "${suggestion}"?`;
+        }
 
         exit(message);
     }
+}
 
-    if (command.allowAnonymousAccess) {
-        command.handler();
-    } else {
-        const client = new AzureClient();
-        client.login().then(command.handler.bind(null, client, args));
-    }
-} else {
-    printLogo();
-    yargs.showHelp();
+function printLogo() {
+console.log(String.raw` ______  ______     __  ______    
+/\  __ \/\___  \   /\ \/\  ___\   
+\ \  __ \/_/  /__ _\_\ \ \___  \  
+ \ \_\ \_\/\_____/\_____\/\_____\ 
+  \/_/\/_/\/_____\/_____/\/_____/                                 
+
+An opinionated CLI for deploying and managing Node.js apps on Azure
+`);
 }

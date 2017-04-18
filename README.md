@@ -33,10 +33,10 @@ As soon as the deploymented is finished, the terminal will begin streaming your 
 
 <img src="https://cloud.githubusercontent.com/assets/116461/24816898/36cdfdcc-1ba0-11e7-92cc-7308355c1135.png" width="600" />
 
-If your app uses MongoDB as its backing database, and you'd like to provision a fully-managed, geo-replicable instance, you can simply run the following command in order to spin one up and inject it's connection string into your app via an environment variable named `MONGO_URL` (view [reference below](#azjs-mongo) for more details of how this works):
+If your app uses MongoDB as its backing database, and you'd like to provision a fully-managed, geo-replicable instance, you can simply run the following command in order to spin one up and inject it's connection string into your app via an environment variable named `MONGO_URL` (view [reference below](#azjs-service) for more details of how this works):
 
 ```shell
-azjs mongo
+azjs service add -t mongodb
 ```
 
 After your app has been running for a while, and you'd like to check it's telemetry and health, you can simply run the following command:
@@ -67,10 +67,11 @@ This will delete all of the infrastructure that was originally provisioned by ru
 * [Deploy](#azjs-deploy)
 * [Export](#azjs-export)
 * [Logs](#azjs-logs)
-* [Mongo](#azjs-mongo)
 * [Monitor](#azjs-monitor)
 * [Portal](#azjs-portal)
 * [Remove](#azjs-remove)
+* [Service](#azjs-service)
+    * [Create](#azjs-service-create)
 
 ### azjs browse
 
@@ -134,17 +135,6 @@ While running `azjs deploy` and/or `azjs browse` will automatically begin stream
 azjs logs
 ```
 
-### azjs mongo
-
-If you're app is using MongoDB as its database (as most Node apps do), then you can easily provision a fully-managed, geo-replicable, Mongo-compatible service (that is backed by Azure DocumentDB) using the following command:
-
-```shell
-azjs mongo
-```
-
-This will create the MongoDB service, and then inject the connection string into your web app, via an environment variable named `MONGO_URL`. Therefore, as long as your app expects to find it's MongoDB connection via an environment variable (as any good 12 Factor App should), then you shouldn't need to make any code changes in order to benefit from this command.
-
-
 ### azjs monitor
 
 When you deploy an app with Az.js, it automatically configures monitoring for you, so that you can view basic telemetry (e.g. HTTP traffic, exceptions) without needing to do anything. In order to view your telemetry dashboard, you can simply run the following command:
@@ -168,6 +158,20 @@ When you no longer need an app deployed in Azure, you can quickly delete all of 
 ```shell
 azjs remove
 ```
+
+### azjs service
+
+Allows managing the external services that your app uses (e.g. MongoDB, Kafka, Redis)
+
+#### azjs service create
+
+Provisions a new instance of a specific service type (e.g. MongoDB) and "binds" it to your deployed web app. For example, to create a MongoDB database, simply run the following command:
+
+```shell
+azjs service create -t mongodb
+```
+
+This will create the MongoDB service, and then inject the connection string into your web app, via an environment variable named `MONGO_URL`. Therefore, as long as your app expects to find it's MongoDB connection via an environment variable (as any good 12 Factor App should), then you shouldn't need to make any code changes in order to benefit from this command.
 
 ## Authentication Reference
 

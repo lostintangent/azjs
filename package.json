@@ -3,7 +3,7 @@
   "version": "0.1.6",
   "description": "An opinionated CLI for deploying and managing Node.js apps on Azure",
   "repository": "https://github.com/lostintangent/azjs",
-  "main": "lib/index.js",
+  "main": "lib",
   "bin": {
     "azjs": "bin/cli.js"
   },

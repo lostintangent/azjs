@@ -1,15 +1,16 @@
-const fse = require("fs-extra");
-
 module.exports = {
-    name: "export",
-    description: "Export the Azure deployment script (ARM) for your app",
+    command: "export",
+    desc: "Export the Azure deployment script (ARM) for your app",
     builder(yargs) {
         return yargs
-                .describe("file", "File name to write the deployment script to. Defaults to stdout").alias("f", "file")
+                .option("file", {
+                    alias: "f",
+                    describe: "File name to write the deployment script to. Defaults to stdout"
+                })
                 .example("azjs export", "Write the app's deployment script to stdout")
                 .example("azjs export -f foo.json", "Write the app's deployment script to a file named 'foo.json'");
     },
-    async handler(client, { file }) {
+    handler: createAzureHandler(async (client, { file }) => {
         const template = await client.exportResourceGroup();
         const jsonTemplate = JSON.stringify(template);
 
@@ -18,5 +19,5 @@ module.exports = {
         } else {
             process.stdout.write(jsonTemplate);
         }
-    }
+    })
 };

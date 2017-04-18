@@ -1,9 +1,9 @@
 const { copy } = require("copy-paste");
-const { green, log } = require("../util");
+const { green, log } = require("../../lib/util");
 
 module.exports = {
-    name: "deploy",
-    description: "Create and deploy a Node.js app running on Azure",
+    command: "deploy",
+    desc: "Create and deploy a Node.js app running on Azure",
     builder(yargs) {
         return yargs
             .describe("git", "Enable Git-based deployment from a local repo").alias("g", "git")
@@ -13,7 +13,7 @@ module.exports = {
             .example("azjs up --git", "Create your Azure web app (if needed), and enable a Git repo to deploy changes to")
             .example("azjs up --git-url scotch-io/node-todo", "Create your Azure web app (if needed), and connect it to a remote Git repo");
     },
-    async handler(client, { git, gitUrl, noSync }) {
+    handler: createAzureHandler(async (client, { git, gitUrl, noSync }) => {
         await client.createResourceGroup();
 
         if (gitUrl) {
@@ -53,5 +53,5 @@ module.exports = {
         console.log(green`${"\u2713 "}` + green`App deployed to ${appUrl} (URL is copied to your clipboard!)`);
 
         client.openLogStream();
-    }
+    })
 };
