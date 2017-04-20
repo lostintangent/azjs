@@ -1,11 +1,14 @@
 #! /usr/bin/env node
 
+const fs = require("fs");
 const nodeVersion = require("node-version");
 const { exit } = require("../lib/util");
 
 if (nodeVersion.major < 6 && nodeVersion.minor < 9) {
     exit("The azjs CLI requires Node v6.9.0 or greater in order to run");
 }
+
+const COMMAND_DIRECTORY = "commands";
 
 global.createAzureHandler = (func, allowAnonymousAccess = false) => {
     return (args) => {
@@ -27,7 +30,7 @@ global.createCommandGroup = (name, description) => {
         command: name,
         desc: description,
         builder(yargs) {
-            return yargs.commandDir(require("path").join("commands", name));
+            return yargs.commandDir(require("path").join(COMMAND_DIRECTORY, name));
         },
         handler() {
             require("yargs").showHelp();
@@ -36,12 +39,13 @@ global.createCommandGroup = (name, description) => {
 };
 
 const { argv } = require("yargs")
-    .commandDir("commands")
+    .commandDir(COMMAND_DIRECTORY)
     .usage("Usage: azjs <command> [options]")
     .demandCommand(1).strict()
     .help("help").alias("h", "help")
     .version(require("../package.json").version).alias("v", "version")
     .fail(handleArgParsingFailure)
+    //.recommendCommands()
 
 // TODO: Handle missing required options (e.g. service create command)
 function handleArgParsingFailure(message, error, yargs) {
@@ -51,15 +55,7 @@ function handleArgParsingFailure(message, error, yargs) {
         printLogo();
         yargs.showHelp();
     } else {
-        const availableCommands = yargs.getCommands().map(([command]) => command);
-        let message = `Unrecognized command name: "${specifiedCommands.join(" ")}".`;
-
-        const suggestion = require("didyoumean")(specifiedCommands.pop(), availableCommands);
-        if (suggestion) {
-            message += ` Did you mean "${suggestion}"?`;
-        }
-
-        exit(message);
+        console.log("d: " + message);
     }
 }
 

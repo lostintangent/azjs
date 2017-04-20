@@ -33,13 +33,15 @@ As soon as the deploymented is finished, the terminal will begin streaming your 
 
 <img src="https://cloud.githubusercontent.com/assets/116461/25141329/1b7dfeca-2418-11e7-9920-bf07cc051eda.png" width="600" />
 
-If your app uses MongoDB as its backing database, and you'd like to provision a fully-managed, geo-replicable instance, you can simply run the following command in order to spin one up and inject it's connection string into your app via an environment variable named `MONGO_URL` (view [reference below](#azjs-service) for more details of how this works):
+If your app uses MongoDB as its backing database (as many Node apps do!), and you'd like to provision a fully-managed, geo-replicable instance, you can simply run the following command in order to spin one up and inject it's connection string into your app via an environment variable named `MONGODB_URL` (view [reference below](#azjs-service) for more details of how this works):
 
 ```shell
-azjs service add -t mongodb
+azjs service create -t mongodb
 ```
 
 <img src="https://cloud.githubusercontent.com/assets/116461/25141537/a8c42e08-2418-11e7-9c01-5330554afbaa.png" width="700" />
+
+> Note: In order to see all of the service types that are supported, run `azjs service create -h` to see the options that the `-t` flag accepts (e.g. Redis)
 
 After your app has been running for a while, and you'd like to check it's telemetry and health, you can simply run the following command:
 
@@ -74,6 +76,7 @@ This will delete all of the infrastructure that was originally provisioned by ru
 * [Remove](#azjs-remove)
 * [Service](#azjs-service)
     * [Create](#azjs-service-create)
+    * [Remove](#azjs-service-remove)
 
 ### azjs browse
 
@@ -163,17 +166,21 @@ azjs remove
 
 ### azjs service
 
-Allows managing the external services that your app uses (e.g. MongoDB, Kafka, Redis)
+Allows managing the external services that your app uses (e.g. MongoDB, Redis)
 
 #### azjs service create
 
-Provisions a new instance of a specific service type (e.g. MongoDB) and "binds" it to your deployed web app. For example, to create a MongoDB database, simply run the following command:
+Provisions a new instance of a specific service type (e.g. MongoDB, Redis) and "binds" it to your deployed web app. For example, to create a MongoDB database, simply run the following command:
 
 ```shell
 azjs service create -t mongodb
 ```
 
-This will create the MongoDB service, and then inject the connection string into your web app, via an environment variable named `MONGO_URL`. Therefore, as long as your app expects to find it's MongoDB connection via an environment variable (as any good 12 Factor App should), then you shouldn't need to make any code changes in order to benefit from this command.
+This will create the MongoDB service, and then inject the connection string into your web app, via an environment variable named `MONGODB_URL`. Therefore, as long as your app expects to find it's MongoDB connection via an environment variable (as any good 12 Factor App should), then you shouldn't need to make any code changes in order to benefit from this command.
+
+#### azjs service remove
+
+Deletes a previously provisioned service and unbinds it from your web app (e.g. removes any injected environment variables).
 
 ## Authentication Reference
 
