@@ -143,7 +143,7 @@ While running `azjs deploy` and/or `azjs browse` will automatically begin stream
 azjs logs
 ```
 
-### azjs logpoints
+### azjs logpoint
 
 Allows managing the dynamic logpoints that allow diagnosing your app in production.
 
