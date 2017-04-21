@@ -44,8 +44,7 @@ const { argv } = require("yargs")
     .demandCommand(1).strict()
     .help("help").alias("h", "help")
     .version(require("../package.json").version).alias("v", "version")
-    .fail(handleArgParsingFailure)
-    //.recommendCommands()
+    .fail(handleArgParsingFailure);
 
 // TODO: Handle missing required options (e.g. service create command)
 function handleArgParsingFailure(message, error, yargs) {
@@ -55,7 +54,7 @@ function handleArgParsingFailure(message, error, yargs) {
         printLogo();
         yargs.showHelp();
     } else {
-        console.log("d: " + message);
+        console.log(message);
     }
 }
 

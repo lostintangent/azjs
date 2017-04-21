@@ -71,6 +71,9 @@ This will delete all of the infrastructure that was originally provisioned by ru
 * [Deploy](#azjs-deploy)
 * [Export](#azjs-export)
 * [Logs](#azjs-logs)
+* [Logpoint](#azjs-logpoint)
+    * [Add](#azjs-logpoint-add)
+    * [Clear](#azjs-logpoint-clear)
 * [Monitor](#azjs-monitor)
 * [Portal](#azjs-portal)
 * [Remove](#azjs-remove)
@@ -138,6 +141,28 @@ While running `azjs deploy` and/or `azjs browse` will automatically begin stream
 
 ```shell
 azjs logs
+```
+
+### azjs logpoints
+
+Allows managing the dynamic logpoints that allow diagnosing your app in production.
+
+#### azjs logpoint add
+
+If you forget to add a log statement to your app before deployment, you can dynamically add one by simply running the following command:
+
+```shell
+azjs logpoint add -f app/routes.js -l 22 -e req.path
+```
+
+Once defined, this logpoint will be outputted to your log stream (e.g. when runnin `azjs logs`) in the same way that any "statically" defined log statement would be.
+
+#### azjs logpoint clear
+
+Once you're finished with your logpoints, you can clear all of them by running the following command, which prevents your logs from being cluttered with unneccessary diagnostic messages:
+
+```shell
+azjs logpoint clear
 ```
 
 ### azjs monitor
