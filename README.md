@@ -77,6 +77,7 @@ This will delete all of the infrastructure that was originally provisioned by ru
 * [Monitor](#azjs-monitor)
 * [Portal](#azjs-portal)
 * [Remove](#azjs-remove)
+* [Restart](#azjs-restart)
 * [Service](#azjs-service)
     * [Create](#azjs-service-create)
     * [Remove](#azjs-service-remove)
@@ -187,6 +188,14 @@ When you no longer need an app deployed in Azure, you can quickly delete all of 
 
 ```shell
 azjs remove
+```
+
+### azjs restart
+
+If at any point, you'd like to restart the web app, in order to force changes to apply, you can simply run the following command:
+
+```shell
+azjs restart
 ```
 
 ### azjs service

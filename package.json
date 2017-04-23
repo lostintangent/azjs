@@ -14,7 +14,7 @@
     "azure-arm-authorization": "^3.1.1",
     "azure-arm-documentdb": "^1.0.0-preview",
     "azure-arm-rediscache": "^1.0.0-preview",
-    "azure-arm-resource": "^1.6.1-preview",
+    "azure-arm-resource": "^2.0.0-preview",
     "azure-arm-website": "^1.0.0-preview",
     "azure-graph": "^1.1.1",
     "chalk": "^1.1.3",

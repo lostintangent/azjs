@@ -46,7 +46,7 @@ const { argv } = require("yargs")
     .version(require("../package.json").version).alias("v", "version")
     .fail(handleArgParsingFailure);
 
-// TODO: Handle missing required options (e.g. service create command)
+// TODO: Handle missing required options (e.g. service create -t)
 function handleArgParsingFailure(message, error, yargs) {
     const [,,...specifiedCommands] = process.argv;
 
