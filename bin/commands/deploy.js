@@ -46,7 +46,7 @@ module.exports = {
             await client.installAppInsights();
         }
 
-        await client.restartApp();
+       // await client.restartApp();
         
         await new Promise((resolve) => {
             require("copy-paste").copy(appUrl, resolve);

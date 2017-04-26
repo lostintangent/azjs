@@ -68,6 +68,7 @@ This will delete all of the infrastructure that was originally provisioned by ru
 ## CLI Command Reference
 
 * [Browse](#azjs-browse)
+* [Cat](#azjs-cat)
 * [Deploy](#azjs-deploy)
 * [Export](#azjs-export)
 * [Logs](#azjs-logs)
@@ -88,6 +89,14 @@ If at any point you'd like to launch the latest deployment of your app, in your 
 
 ```shell
 azjs browse
+```
+
+### azjs cat
+
+View the contents of a file on the remote server. This is useful if you'd like to set a [logpoint](#azjs-logpoint-add) for diagnostic purposes, but you need to determine the exact line number in a file you're interested in.
+
+```shell
+azjs cat -f app/routes.js
 ```
 
 ### azjs deploy
