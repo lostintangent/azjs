@@ -8,7 +8,7 @@ This CLI is very much inspired by the amazing work done by other tools such as [
 
 ## Pre-requisites
 
-* [Node.js](https://nodejs.org/en/) v7.6.0+ 
+* [Node.js](https://nodejs.org/en/) v6.9.0+
 * Azure account ([start a free trial with a $200 credit!](https://azure.microsoft.com/en-us/free))
 
 ## Getting Started

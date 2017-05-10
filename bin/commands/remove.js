@@ -2,9 +2,14 @@ module.exports = {
     command: "remove",
     desc: "Delete all of the Azure resources backing a deployed web app",
     builder(yargs) {
-        return yargs.example(`azjs remove`, "Delete the infrastructure for the web app specified by the CWD");
+        return yargs.usage("azjs remove [options]")
+                    .example("azjs remove", "Delete the infrastructure for the web app specified by the CWD");
     },
-    handler: createAzureHandler((client) => {
+    handler: createAzureHandler((client, { noWait }) => {
         client.deleteResourceGroup();
+
+        if (noWait) { 
+            process.exit(0);
+        }
     })
 };

@@ -2,6 +2,8 @@
 
 const fs = require("fs");
 const nodeVersion = require("node-version");
+const path = require("path");
+const yargs = require("yargs");
 const { exit } = require("../lib/util");
 
 if (nodeVersion.major < 6 && nodeVersion.minor < 9) {
@@ -10,18 +12,19 @@ if (nodeVersion.major < 6 && nodeVersion.minor < 9) {
 
 const COMMAND_DIRECTORY = "commands";
 
-global.createAzureHandler = (func, allowAnonymousAccess = false) => {
+global.createAzureHandler = (func, requiresProject = true) => {
     return (args) => {
+        if (requiresProject) {
+            if (!fs.existsSync(path.join(process.cwd(), ".azjs.json"))) {
+                exit("This command must be run from within the directory of an Az.js project.");
+            }
+        }
+
         const AzureClient = require("../lib/AzureClient");
         const client = new AzureClient();
+        const boundFunc = func.bind(client, client, args);
 
-        const boundFunc = func.bind(null, client, args);
-
-        if (allowAnonymousAccess) {
-            boundFunc();
-        } else {
-            client.login().then(boundFunc);
-        }
+        return client.login().then(boundFunc).catch(exit);
     };
 };
 
@@ -30,7 +33,8 @@ global.createCommandGroup = (name, description) => {
         command: name,
         desc: description,
         builder(yargs) {
-            return yargs.commandDir(require("path").join(COMMAND_DIRECTORY, name));
+            return yargs.usage(`azjs ${name} <command> [options]`)
+                        .commandDir(path.join(COMMAND_DIRECTORY, name));
         },
         handler() {
             require("yargs").showHelp();
@@ -38,28 +42,29 @@ global.createCommandGroup = (name, description) => {
     };
 };
 
-const { argv } = require("yargs")
-    .commandDir(COMMAND_DIRECTORY)
-    .usage("Usage: azjs <command> [options]")
+yargs.usage("Usage: azjs <command> [options]")
     .demandCommand(1).strict()
-    .help("help").alias("h", "help")
-    .version(require("../package.json").version).alias("v", "version")
-    .fail(handleArgParsingFailure);
+    .commandDir(COMMAND_DIRECTORY)    
+    .help().alias("h", "help")
+    .version().alias("v", "version")
+    .fail(failHandler)
+    .argv;
 
-// TODO: Handle missing required options (e.g. service create -t)
-function handleArgParsingFailure(message, error, yargs) {
+function failHandler(message, error, yargs) {
     const [,,...specifiedCommands] = process.argv;
 
     if (specifiedCommands.length === 0) {
         printLogo();
-        yargs.showHelp();
     } else {
-        console.log(message);
+        const { red } = require("chalk");
+        console.error(`${red(message)}\n`);
     }
+
+    yargs.showHelp();
 }
 
 function printLogo() {
-console.log(String.raw` ______  ______     __  ______    
+console.error(String.raw` ______  ______     __  ______    
 /\  __ \/\___  \   /\ \/\  ___\   
 \ \  __ \/_/  /__ _\_\ \ \___  \  
  \ \_\ \_\/\_____/\_____\/\_____\ 
@@ -68,3 +73,5 @@ console.log(String.raw` ______  ______     __  ______
 An opinionated CLI for deploying and managing Node.js apps on Azure
 `);
 }
+
+process.on("unhandledRejection", (reason) => exit(reason));

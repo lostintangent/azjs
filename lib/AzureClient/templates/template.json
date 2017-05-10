@@ -34,8 +34,7 @@
             "apiVersion": "2014-04-01",
             "location": "eastus",
             "properties": {
-                "ApplicationId": "[variables('insightsName')]",
-                "Application_Type": "Node.JS"
+                "ApplicationId": "[variables('insightsName')]"
             }
         },
         {

@@ -1,10 +1,12 @@
-const SERVICE_TYPES = ["mongodb", "redis"];
+// TODO: Make this list dynamic
+const SERVICE_TYPES = ["mongodb", "redis", "registry"];
 
 module.exports = {
     command: "create",
     desc: "Create and bind an external service to your app",
     builder(yargs) {
         return yargs
+                .usage("azjs servicecreate -t <serviceType> [options]")
                 .option("type", {
                     alias: "t",
                     describe: "The service type to create",

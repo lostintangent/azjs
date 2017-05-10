@@ -2,10 +2,43 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "gitUrl": {
+        "dockerImage": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
-                "description": "The URL of the GitHub repo to sync this web app from."
+                "description": "The name of the custom Docker image you want to deploy."
+            }
+        },
+        "dockerRegistryPassword": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The password of the account that is being used to deploy a container from a private Docker registry."
+            }
+        },
+        "dockerRegistryUrl": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The URL of the private registry that contains the custom container being deployed."
+            }
+        },
+        "dockerRegistryUsername": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The username of the account that is being used to deploy a container from a private Docker registry."
+            }
+        },
+        "scmType": {
+            "type": "string",
+            "defaultValue": "None",
+            "allowedValues": [
+                "LocalGit",
+                "None"
+            ],
+            "metadata": {
+                "description": "The type of source control to enable for this web app."
             }
         },
         "webAppName": {
@@ -16,10 +49,13 @@
         }
     },
     "variables": {
-        "webAppName": "[parameters('webAppName')]",
+        "dockerImage": "[parameters('dockerImage')]",
+        "dockerRegistryPassword": "[parameters('dockerRegistryPassword')]",
+        "dockerRegistryUrl": "[parameters('dockerRegistryUrl')]",
+        "dockerRegistryUsername": "[parameters('dockerRegistryUsername')]",
         "planName": "[concat(parameters('webAppName'), '-plan')]",
-        "gitUrl": "[parameters('gitUrl')]",
-        "branch": "master",
+        "scmType": "[parameters('scmType')]",
+        "webAppName": "[parameters('webAppName')]",
         "insightsName": "[concat(parameters('webAppName'), '-insights')]"
     },
     "resources": [
@@ -30,8 +66,7 @@
             "apiVersion": "2014-04-01",
             "location": "eastus",
             "properties": {
-                "ApplicationId": "[variables('insightsName')]",
-                "Application_Type": "Node.JS"
+                "ApplicationId": "[variables('insightsName')]"
             }
         },
         {
@@ -45,10 +80,12 @@
             },
             "name": "[variables('planName')]",
             "apiVersion": "2015-08-01",
+            "kind": "Linux",
             "location": "[resourceGroup().location]",
             "properties": {
                 "name": "[variables('planName')]",
-                "numberOfWorkers": 1
+                "numberOfWorkers": 1,
+                "reserved": true
             }
         },
         {
@@ -82,10 +119,25 @@
                 ],
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
                 "siteConfig": {
+                    "appCommandLine": "process.json",
+                    "linuxFxVersion": "NODE|6.10.2",
+                    "scmType": "[variables('scmType')]",
                     "appSettings": [
                         {
-                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                            "value": "6.9.1"
+                            "name": "DOCKER_CUSTOM_IMAGE_NAME",
+                            "value": "[variables('dockerImage')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "[variables('dockerRegistryUrl')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                            "value": "[variables('dockerRegistryUsername')]"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                            "value": "[variables('dockerRegistryPassword')]"
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
@@ -94,21 +146,6 @@
                     ]
                 }
             },
-            "resources": [
-                {
-                "apiVersion": "2015-08-01",
-                "name": "web",
-                "type": "sourcecontrols",
-                "dependsOn": [
-                    "[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
-                ],
-                "properties": {
-                    "RepoUrl": "[variables('gitUrl')]",
-                    "branch": "[variables('branch')]",
-                    "IsManualIntegration": true
-                }
-                }
-            ],
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
                 "[resourceId('Microsoft.insights/components', variables('insightsName'))]"
