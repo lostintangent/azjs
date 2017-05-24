@@ -8,7 +8,10 @@ This CLI is very much inspired by the amazing work done by other tools such as [
 
 ## Pre-requisites
 
-* [Node.js](https://nodejs.org/en/) v6.9.0+
+* [Node.js](https://nodejs.org/en/) v6.9.0+, and the dependencies needed to compile native NPM modules:
+    * Windows - `npm i -g windows-build-tools`
+    * Linux - `apt-get install build-essential`
+    * OSX - Xcode Command Line Tools
 * Azure account ([start a free trial with a $200 credit!](https://azure.microsoft.com/en-us/free))
 
 ## Getting Started
