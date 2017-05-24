@@ -8,9 +8,9 @@ This CLI is very much inspired by the amazing work done by other tools such as [
 
 ## Pre-requisites
 
-* [Node.js](https://nodejs.org/en/) v6.9.0+, and the platform-specific tools needed to compile native NPM modules:
-    * Windows - Run the following in as an admin `npm i -g windows-build-tools` *(If you already have Visual Studio installed, you don't need to do this)*
-    * Ubuntu - Run `apt-get install build-essential`
+* [Node.js](https://nodejs.org/en/) v6.9.0+, and the platform-specific tools needed to compile native NPM modules *(which you may already have)*:
+    * Windows - Run the following in as an admin `npm i -g windows-build-tools` *(If you already have Visual Studio 2015+ installed, you don't need to do this)*
+    * Ubuntu - Run `sudo apt-get install build-essential`
     * macOS - Install the Xcode Command Line Tools
 * Azure account ([start a free trial with a $200 credit!](https://azure.microsoft.com/en-us/free))
 
