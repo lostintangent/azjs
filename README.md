@@ -73,6 +73,7 @@ This will delete all of the infrastructure that was originally provisioned by ru
 * [Browse](#azjs-browse)
 * [Cat](#azjs-cat)
 * [Deploy](#azjs-deploy)
+* [Exec](#azjs-exec)
 * [Export](#azjs-export)
 * [Logs](#azjs-logs)
 * [Logpoint](#azjs-logpoint)
@@ -133,6 +134,16 @@ azjs deploy --git-url <GIT_REPO_URL>
 ```
 
 This will behave similarly to the local Git deployment solution, however, instead of pushing changes directly to your web app, you would push changes to the specified Git repo, and allow the deployed web app to pull updates from it.
+
+### azjs exec
+
+While `azjs` provides numerous first-class commands for running specific operations (e.g. reading a remote file), there may be times where you want to execute an arbitrary shell command against the remote web app. To do this, you can simply run the following command:
+
+```shell
+azjs exec -c 'npm i -g gulp'
+```
+
+If the command exits with a 0 status code, then its stdout will be printed to the terminal. Otherwise, it's stderr will be printed, so you can identify what went wrong.
 
 ### azjs export
 
