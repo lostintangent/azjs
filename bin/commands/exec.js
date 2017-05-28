@@ -11,7 +11,7 @@ module.exports = {
                 .example("azjs exec -c 'npm i -g gulp'", "Execute an NPM command on the remote app");
     },
     handler: createAzureHandler((client, { command }) => {
-        return client.runRemoteCommand(command).then(({ Error: errorMessage, ExitCode, Output}) => {
+        return client.runRemoteCommand(command).then(({ Error: errorMessage, ExitCode, Output }) => {
             if (ExitCode === 0) {
                 Output && console.log(Output);
             } else {

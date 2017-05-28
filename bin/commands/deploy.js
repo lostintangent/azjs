@@ -39,7 +39,8 @@ module.exports = {
             else {
                 return client.deploy(linux)
                              .then(() => client.installDependencies())
-                             .then(() => client.installAppInsights());
+                             .then(() => client.installAppInsights())
+                             .then(() => client.buildAppIfNeeded());
             }
         }).then(() => {
             return new Promise((resolve) => {

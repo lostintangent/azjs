@@ -7,7 +7,7 @@ module.exports = {
                 .option("type", {
                     alias: "t",
                     describe: "Type of the service to remove",
-                    choices: ["mongodb", "redis", "registry"],
+                    choices: ["mongodb", "mysql", "redis", "registry"],
                     required: true
                 })
                 .example("azjs service remove -t mongo", "Removes the MongoDB service from the app identified by the CWD");

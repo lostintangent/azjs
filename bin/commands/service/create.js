@@ -1,5 +1,5 @@
 // TODO: Make this list dynamic
-const SERVICE_TYPES = ["mongodb", "redis", "registry"];
+const SERVICE_TYPES = ["mongodb", "mysql", "redis", "registry"];
 
 module.exports = {
     command: "create",
