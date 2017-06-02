@@ -88,7 +88,11 @@
                     "appSettings": [
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                            "value": "6.9.1"
+                            "value": "8.0.0"
+                        },
+                        {
+                            "name": "WEBSITE_NPM_DEFAULT_VERSION",
+                            "value": "5.0.0"
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
