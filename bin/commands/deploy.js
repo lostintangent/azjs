@@ -37,10 +37,11 @@ module.exports = {
                 }
             }
             else {
+                const buildScript = client.getPackageScript("build");
                 return client.deploy(linux)
-                             .then(() => client.installDependencies())
-                             .then(() => client.installAppInsights())
-                             .then(() => client.buildAppIfNeeded());
+                    .then(() => client.installDependencies(!buildScript))
+                    .then(() => client.installAppInsights())
+                    .then(() => buildScript ? client.buildApp(buildScript) : null);
             }
         }).then(() => {
             return new Promise((resolve) => {
