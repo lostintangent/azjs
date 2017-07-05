@@ -1,6 +1,6 @@
 {
   "name": "azjs",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "An opinionated CLI for deploying and managing Node.js web apps on Azure",
   "repository": "https://github.com/lostintangent/azjs",
   "main": "lib",
@@ -8,8 +8,8 @@
   "author": "Jonathan Carter",
   "license": "MIT",
   "dependencies": {
-    "archiver": "^1.3.0",
-    "az-login": "^0.2.0",
+    "az-kudu": "^1.0.0",
+    "az-login": "^0.3.0",
     "azure-arm-authorization": "^3.1.1",
     "azure-arm-containerregistry": "^1.0.0-preview",
     "azure-arm-documentdb": "^1.0.0-preview",
