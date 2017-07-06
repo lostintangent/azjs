@@ -8,7 +8,7 @@
   "author": "Jonathan Carter",
   "license": "MIT",
   "dependencies": {
-    "az-kudu": "^1.0.0",
+    "az-kudu": "^1.1.0",
     "az-login": "^0.3.0",
     "azure-arm-authorization": "^3.1.1",
     "azure-arm-containerregistry": "^1.0.0-preview",
