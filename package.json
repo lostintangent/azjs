@@ -1,6 +1,6 @@
 {
   "name": "azjs",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "An opinionated CLI for deploying and managing Node.js web apps on Azure",
   "repository": "https://github.com/lostintangent/azjs",
   "main": "lib",
