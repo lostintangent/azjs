@@ -1,9 +1,8 @@
 {
   "private": true,
+  "workspaces": ["packages/*"],
   "scripts": {
-    "clean": "lerna clean",
     "format": "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
-    "postinstall": "lerna bootstrap --hoist && cd packages/azjs && npm link",
     "precommit": "lint-staged",
     "publish": "lerna publish",
     "test": "lerna run test"
@@ -15,9 +14,6 @@
     "prettier": "^1.5.3"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["prettier --write", "git add"]
   }
 }
