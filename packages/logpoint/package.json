@@ -1,0 +1,15 @@
+{
+  "name": "logpoint",
+  "version": "0.0.4",
+  "description": "A simple Node.js library for dynamically injecting diagnostic log into your apps at runtime",
+  "repository": "https://github.com/lostintangent/azjs",
+  "main": "index.js",
+  "author": "Jonathan Carter",
+  "license": "MIT",
+  "dependencies": {
+    "node-version": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=6.9.0"
+  }
+}

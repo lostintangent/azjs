@@ -1,0 +1,32 @@
+{
+  "name": "az-login",
+  "version": "0.3.0",
+  "description": "A simple helper library for logging into an Azure account from Node.js",
+  "main": "index.js",
+  "repository": "https://github.com/lostintangent/azjs",
+  "keywords": [
+    "azure"
+  ],
+  "scripts": {
+    "test": "node ./examples"
+  },
+  "author": "Jonathan Carter",
+  "license": "MIT",
+  "dependencies": {
+    "azure-arm-authorization": "^4.0.0-preview",
+    "azure-graph": "^2.0.0-preview",
+    "copy-paste": "^1.3.0",
+    "fs-extra": "^2.1.2",
+    "fse": "^1.0.1",
+    "inquirer": "^3.0.6",
+    "moment": "^2.18.1",
+    "ms-rest-azure": "^2.1.0",
+    "opn": "^4.0.2"
+  },
+  "devDependencies": {
+    "azure-arm-resource": "^2.0.0-preview"
+  },
+  "engines": {
+    "node": ">=6.9.0"
+  }
+}
