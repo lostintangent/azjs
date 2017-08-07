@@ -3,13 +3,11 @@
   "workspaces": ["packages/*"],
   "scripts": {
     "format": "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
-    "precommit": "lint-staged",
-    "publish": "lerna publish",
-    "test": "lerna run test"
+    "postinstall": "cd packages/azjs; yarn unlink; yarn link",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "husky": "^0.14.3",
-    "lerna": "^2.0.0",
     "lint-staged": "^4.0.2",
     "prettier": "^1.5.3"
   },
