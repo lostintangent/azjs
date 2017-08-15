@@ -29,6 +29,7 @@
     "password-generator": "^2.1.0",
     "project-name-generator": "^2.1.3",
     "request": "^2.81.0",
+    "start-script": "^0.1.0",
     "yargs": "^7.0.2"
   },
   "engines": {

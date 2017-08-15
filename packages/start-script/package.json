@@ -1,0 +1,12 @@
+{
+  "name": "start-script",
+  "version": "0.1.0",
+  "description": "Simple helper utility for detecting a Node.js app's startup script (e.g. server.js)",
+  "main": "index.js",
+  "repository": "https://github.com/lostintangent/azjs",
+  "author": "Jonathan Carter",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.9.0"
+  }
+}

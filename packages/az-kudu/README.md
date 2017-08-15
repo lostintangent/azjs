@@ -1,6 +1,6 @@
 # Azure Web Apps Kudu Client (az-kudu)
 
-The `az-kudu` module provides a simple client for interacting with the [Kudu API](https://github.com/projectkudu/kudu/wiki), which you can conceptually think of as the "management plane" of Azure Web Apps. It allows you to programmatically perform common operations such as uploading/downloading files, running remote commands, and streaming the output logs for a specific Azure Web App instance (kind of like a PaaS equivalent of SSH/SCP). It is meant to be used along with the [`az-login`](https://github.com/lostintangent/az-login) module, which handles the Azure authentication process, and allows instantianting `az-kudu` instances just like any other client API in the [Azure Node.js SDK](https://github.com/Azure/azure-sdk-for-node).
+The `az-kudu` module provides a simple client for interacting with the [Kudu REST API](https://github.com/projectkudu/kudu/wiki/REST-API), which you can conceptually think of as the "management plane" of Azure Web Apps. It allows you to programmatically perform common operations such as uploading/downloading files, running remote commands, and streaming the output logs for a specific Azure Web App instance (kind of like a PaaS equivalent of SSH/SCP). It is meant to be used along with the [`az-login`](https://github.com/lostintangent/az-login) module, which handles the Azure authentication process, and allows instantianting `az-kudu` instances just like any other client API in the [Azure Node.js SDK](https://github.com/Azure/azure-sdk-for-node).
 
 ## Pre-requisites
 

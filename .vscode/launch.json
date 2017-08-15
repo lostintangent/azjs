@@ -11,6 +11,14 @@
                 "azureServicePrincipalClientId": "",
                 "azureSubId": ""
             }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch (kudu-fs)",
+            "program": "${workspaceRoot}/packages/kudu-fs/examples/index.js",
+            "protocol": "inspector",
+            "console": "integratedTerminal"
         }
     ]
 }

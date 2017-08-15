@@ -3,6 +3,7 @@ const fse = require("fs-extra");
 const opn = require("opn");
 const os = require("os");
 const path = require("path");
+const startScript = require("start-script");
 const SettingsManager = require("../util/SettingsManager");
 const { execSync } = require("child_process");
 const { green, logCompletedOperation, runOperation } = require("../util");
@@ -112,13 +113,15 @@ module.exports = class AzureClient {
   }
 
   createConfig(linux) {
-    return this.getStartFile().then(startFile => {
+    return startScript().then(startScript => {
+      logCompletedOperation(green`Set app start file: ${startScript}`);
+
       const bootstrap = fs
         .readFileSync(
           path.join(__dirname, "templates", BOOTSTRAP_FILE_NAME),
           "utf8"
         )
-        .replace(/\{\{STARTUP_FILE\}\}/g, startFile);
+        .replace(/\{\{STARTUP_FILE\}\}/g, startScript);
 
       fs.writeFileSync(
         path.join(process.cwd(), BOOTSTRAP_FILE_NAME),
@@ -216,30 +219,6 @@ module.exports = class AzureClient {
         return scripts[scriptName];
       }
     }
-  }
-
-  getStartFile() {
-    return new Promise((resolve, reject) => {
-      const startScript = this.getPackageScript("start");
-      if (startScript) {
-        const startFile = startScript.replace("node ", "");
-        logCompletedOperation(green`Set app start file: ${startFile}`);
-        resolve(startFile);
-      } else {
-        let startFileFound = false;
-        ["server.js", "app.js", "index.js"].forEach(fileName => {
-          if (fs.existsSync(path.join(process.cwd(), fileName))) {
-            startFileFound = true;
-            logCompletedOperation(green`Set app start file: ${fileName}`);
-            resolve(fileName);
-          }
-        });
-
-        if (!startFileFound) {
-          reject(new Error("No start file found"));
-        }
-      }
-    });
   }
 
   initAppSettings(subscriptionId, clientFactory) {

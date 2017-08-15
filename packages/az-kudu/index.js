@@ -2,6 +2,22 @@
 // stored in for both Windows and Linux Web Apps.
 const ROOT_DIRECTORY = "site/wwwroot";
 
+function normalizePath(path) {
+  // Strip off a leading slash, since we
+  // already add it to the URL when requesting the list.
+  if (path.startsWith("/")) {
+    path = path.substring(1);
+  }
+
+  // If the specified directory isn't rooted within
+  // the app directory, then append it
+  if (!path.startsWith(ROOT_DIRECTORY)) {
+    path = `${ROOT_DIRECTORY}/${path}`;
+  }
+
+  return path;
+}
+
 module.exports = class KuduClient {
   // This constructor conforms to the signature that all Azure Node.js
   // SDK clients accept, in order to be instantiatable via az-login
@@ -25,15 +41,44 @@ module.exports = class KuduClient {
     this._requestStream = require("request").defaults(defaults);
   }
 
-  deleteFile(fileName, directory = ROOT_DIRECTORY) {
-    return this._requestPromise.delete(
-      `${this._kuduApiUrl}/vfs/${directory}/${fileName}`
+  createDirectory(path) {
+    return this._requestPromise.put(
+      `${this._kuduApiUrl}/vfs/${noramlizePath(path)}/`
     );
   }
 
-  getFileContents(filePath, directory = ROOT_DIRECTORY) {
+  deleteDirectory(path) {
+    return this._requestPromise.delete(
+      `${this._kuduApiUrl}/vfs/${normalizePath(path)}/`,
+      {
+        headers: {
+          "If-Match": "*"
+        }
+      }
+    );
+  }
+
+  deleteFile(path) {
+    return this._requestPromise.delete(
+      `${this._kuduApiUrl}/vfs/${normalizePath(path)}`,
+      {
+        headers: {
+          "If-Match": "*"
+        }
+      }
+    );
+  }
+
+  getFileContents(path) {
     return this._requestPromise(
-      `${this._kuduApiUrl}/vfs/${directory}/${filePath}`
+      `${this._kuduApiUrl}/vfs/${normalizePath(path)}`
+    );
+  }
+
+  listDirectory(path = ROOT_DIRECTORY) {
+    return this._requestPromise.get(
+      `${this._kuduApiUrl}/vfs/${normalizePath(path)}`,
+      { json: true }
     );
   }
 

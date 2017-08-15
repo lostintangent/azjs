@@ -1,0 +1,18 @@
+{
+  "name": "kudu-fs",
+  "version": "0.1.0",
+  "description": "A FUSE file system that allows locally mounting a Kudu-backend file system",
+  "main": "index.js",
+  "scripts": {
+    "test": "node examples/index"
+  },
+  "author": "Jonathan Carter",
+  "license": "MIT",
+  "dependencies": {
+    "fuse-bindings": "^2.11.1"
+  },
+  "devDependencies": {
+    "az-kudu": "^1.1.0",
+    "az-login": "^0.3.0"
+  }
+}
