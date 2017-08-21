@@ -15,8 +15,6 @@ function handlePromise(promise, cb) {
 
 module.exports = kuduClient => {
   let fileDirectory = new Map();
-  let fd = 1;
-
   return {
     displayFolder: true,
     force: true,
@@ -52,11 +50,6 @@ module.exports = kuduClient => {
       };
 
       cb(SUCCESS_STATUS, stats);
-    },
-
-    // Create a new directory
-    mkdir(path, mode, cb) {
-      handlePromise(kuduClient.createDirectory(path), cb);
     },
 
     // Read the contents of a specific file
@@ -105,11 +98,7 @@ module.exports = kuduClient => {
         .catch(() => cb(ERROR_STATUS));
     },
 
-    rename(src, dest, cb) {
-      console.log(`Renaming ${src} to ${dest}`);
-      handlePromise(kuduClient.renameFile(src, dest), cb);
-    },
-
+    // Delete the contents of a specific directory.
     rmdir(path, cb) {
       handlePromise(kuduClient.deleteDirectory(path), cb);
     },

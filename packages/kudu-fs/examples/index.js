@@ -3,8 +3,9 @@ const kudu = require("az-kudu");
 const path = require("path");
 const { login } = require("az-login");
 
-login().then(async ({ clientFactory }) => {
-  const kuduClient = clientFactory(kudu, "coordinated-slip-2809");
+!(async function() {
+  const { clientFactory } = await login();
+  const kuduClient = clientFactory(kudu, "agreeable-grass-6360");
   const kuduFS = require("../");
 
   try {
@@ -24,4 +25,4 @@ login().then(async ({ clientFactory }) => {
     console.error(error);
     process.exit(1);
   }
-});
+})();
