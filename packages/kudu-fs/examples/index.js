@@ -1,27 +1,27 @@
+const fs = require("fs");
 const kudu = require("az-kudu");
 const path = require("path");
 const { login } = require("az-login");
 
-login().then(({ clientFactory }) => {
-  const kuduClient = clientFactory(kudu, "distinct-actor-1738");
+login().then(async ({ clientFactory }) => {
+  const kuduClient = clientFactory(kudu, "coordinated-slip-2809");
   const kuduFS = require("../");
 
-  const mountPath = path.join(process.cwd(), "mount");
-  kuduFS(mountPath, kuduClient)
-    .then(unmount => {
-      process.on("SIGINT", () => {
-        unmount();
-        process.exit();
-      });
+  try {
+    const mountPath = path.join(process.cwd(), "mount");
+    !fs.existsSync(mountPath) && fs.mkdirSync(mountPath);
 
-      console.log("Press any key in order to stop the KuduFS mount...");
-      process.stdin.on("data", () => {
-        unmount();
+    const unmount = await kuduFS(mountPath, kuduClient);
+    console.log("Press <CTRL+C> to stop the KuduFS mount...");
+
+    process.on("SIGINT", () => {
+      unmount(error => {
+        error && console.log(error.message);
         process.exit();
       });
-    })
-    .catch(error => {
-      console.log(error);
-      process.exit(1);
     });
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 });

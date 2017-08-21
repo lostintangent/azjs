@@ -6,11 +6,17 @@ const SUCCESS_STATUS = 0;
 
 const DIRECTORY_MIME_TYPE = "inode/directory";
 
-const DIRECTORY_MODE = 16877;
-const FILE_MODE = 33206;
+const DIRECTORY_MODE = 20479;
+const FILE_MODE = 36351;
+
+function handlePromise(promise, cb) {
+  return promise.then(() => cb(SUCCESS_STATUS)).catch(() => cb(ERROR_STATUS));
+}
 
 module.exports = kuduClient => {
   let fileDirectory = new Map();
+  let fd = 1;
+
   return {
     displayFolder: true,
     force: true,
@@ -23,7 +29,7 @@ module.exports = kuduClient => {
           atime: new Date(),
           ctime: new Date(),
           mtime: new Date(),
-          size: 100,
+          size: 1000000,
           mode: DIRECTORY_MODE,
           gid: process.getgid(),
           uid: process.getuid()
@@ -50,9 +56,7 @@ module.exports = kuduClient => {
 
     // Create a new directory
     mkdir(path, mode, cb) {
-      console.log(path);
-
-      kuduClient.createDirectory(path).then(() => cb(SUCCESS_STATUS));
+      handlePromise(kuduClient.createDirectory(path), cb);
     },
 
     // Read the contents of a specific file
@@ -69,14 +73,17 @@ module.exports = kuduClient => {
         buf.write(contentSlice);
         cb(contentSlice.length);
       } else {
-        kuduClient.getFileContents(path).then(contents => {
-          const contentSlice = contents.slice(pos, pos + len);
-          if (!contentSlice) return cb(0);
+        kuduClient
+          .getFileContents(path)
+          .then(contents => {
+            const contentSlice = contents.slice(pos, pos + len);
+            if (!contentSlice) return cb(0);
 
-          buf.write(contentSlice);
-          item.contents = contents;
-          cb(contentSlice.length);
-        });
+            buf.write(contentSlice);
+            item.contents = contents;
+            cb(contentSlice.length);
+          })
+          .catch(() => cb(ERROR_STATUS));
       }
     },
 
@@ -85,31 +92,45 @@ module.exports = kuduClient => {
     readdir(path, cb) {
       // TODO: Check whether we'd ls'd a dir already
       // and if so, short-circuit hitting the server
-      kuduClient.listDirectory(path).then(items => {
-        const childrem = items.map(content => {
-          const itemPath = joinPath(path, content.name);
-          fileDirectory.set(itemPath, content);
-          return content.name;
-        });
-        cb(SUCCESS_STATUS, childrem);
-      });
+      kuduClient
+        .listDirectory(path)
+        .then(items => {
+          const childrem = items.map(content => {
+            const itemPath = joinPath(path, content.name);
+            fileDirectory.set(itemPath, content);
+            return content.name;
+          });
+          cb(SUCCESS_STATUS, childrem);
+        })
+        .catch(() => cb(ERROR_STATUS));
     },
 
     rename(src, dest, cb) {
-      // TODO: Implement this
+      console.log(`Renaming ${src} to ${dest}`);
+      handlePromise(kuduClient.renameFile(src, dest), cb);
     },
 
     rmdir(path, cb) {
-      kuduClient.deleteDirectory(path).then(() => cb(SUCCESS_STATUS));
+      handlePromise(kuduClient.deleteDirectory(path), cb);
     },
 
+    // This enables files to be extended or
+    // compressed in size, and is critical
+    // for being able to edit a file.
+    truncate(path, size, cb) {
+      cb(SUCCESS_STATUS);
+    },
+
+    // Delete an existing file
     unlink(path, cb) {
-      kuduClient.deleteFile(path).then(() => cb(SUCCESS_STATUS));
+      handlePromise(kuduClient.deleteFile(path), cb);
     },
 
+    // Update the contents of an existing file
     write(path, fd, buffer, length, position, cb) {
-      // TODO
-      cb(length);
+      kuduClient
+        .writeFileContents(path, buffer.toString())
+        .then(() => cb(buffer.length));
     }
   };
 };

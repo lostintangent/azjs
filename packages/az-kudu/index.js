@@ -86,6 +86,18 @@ module.exports = class KuduClient {
     return this._requestStream(`${this._kuduApiUrl}/logstream`);
   }
 
+  renameFile(srcPath, destPath) {
+    return this._requestPromise.post(
+      `${this._kuduApiUrl}/vfs/${normalizePath(destPath)}`,
+      {
+        body: {
+          renameFrom: srcPath
+        },
+        json: true
+      }
+    );
+  }
+
   runCommand(command, cwd = "site\\wwwroot") {
     return this._requestPromise
       .post({
@@ -141,5 +153,17 @@ module.exports = class KuduClient {
         )
       );
     });
+  }
+
+  writeFileContents(path, contents) {
+    return this._requestPromise.put(
+      `${this._kuduApiUrl}/vfs/${normalizePath(path)}`,
+      {
+        body: contents,
+        headers: {
+          "If-Match": "*"
+        }
+      }
+    );
   }
 };
