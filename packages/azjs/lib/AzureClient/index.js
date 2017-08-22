@@ -288,6 +288,28 @@ module.exports = class AzureClient {
     });
   }
 
+  mountRemoteFilesystem(mountPath) {
+    const kuduFS = require("kudu-fs");
+
+    if (!mountPath) {
+      mountPath = path.join(process.cwd(), this.appName);
+    }
+
+    !fs.existsSync(mountPath) && fs.mkdirSync(mountPath);
+    return kuduFS(mountPath, this.kuduClient).then(unmount => {
+      logCompletedOperation(
+        green`KuduFS mount initialized at ${path.relative(
+          process.cwd(),
+          mountPath
+        )}\n`
+      );
+      console.log(green`Press ${"CTRL+C"} to unmount it`);
+      process.on("SIGINT", () => {
+        unmount();
+      });
+    });
+  }
+
   openLogStream() {
     logCompletedOperation(
       green`Starting log stream. Press ${"CTRL+C"} to exit\n`
