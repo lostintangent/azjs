@@ -1,5 +1,7 @@
 # Az.js CLI
 
+[![Build Status](https://travis-ci.org/lostintangent/azjs.svg?branch=master)](https://travis-ci.org/lostintangent/azjs)
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/lostintangent/azjs.svg)](https://greenkeeper.io/)
 
 Az.js is a command line tool which attempts to provide an opinionated (and hopefully simpler!) developer experience for deploying and managing Node.js apps on Azure. It is meant to experiment/play around with ideas to reduce the barrier of entry to cloud development, and therefore, is a compliment to the already awesome [Azure CLI 2.0](http://github.com/azure/azure-cli) (which supports a significantly richer set of scenarios and capabilities).
