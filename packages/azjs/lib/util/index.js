@@ -15,7 +15,7 @@ exports.handle = (resolve, reject) => {
   };
 };
 
-exports.exit = (message, exitCode = -1) => {
+exports.exit = (message, exitCode = 1) => {
   console.error(`${red(message)}`);
   process.exit(exitCode);
 };

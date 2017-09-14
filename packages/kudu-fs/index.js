@@ -1,4 +1,4 @@
-const fs = require("fs");
+const debug = require("debug")("kudu-fs");
 const fuse = require("fuse-bindings");
 const handlerFactory = require("./handlerFactory");
 
@@ -9,9 +9,18 @@ module.exports = (mountPath, kuduClient) => {
         return reject(error);
       }
 
-      resolve(cb => {
-        fuse.unmount(mountPath, cb);
-      });
+      debug("Mounted at %o", mountPath);
+      const unmount = cb => {
+        fuse.unmount(mountPath, () => {
+          debug("Unmounted at %o", mountPath);
+          cb && cb();
+        });
+      };
+
+      // Make the unmount method also appear
+      // as if it were a "disposable".
+      unmount.dispose = unmount;
+      resolve(unmount);
     });
   });
 };

@@ -4,11 +4,12 @@
   "description": "A FUSE file system that allows locally mounting a Kudu-backend file system",
   "main": "index.js",
   "scripts": {
-    "test": "node examples/index"
+    "test": "DEBUG=kudu-fs node examples/index"
   },
   "author": "Jonathan Carter",
   "license": "MIT",
   "dependencies": {
+    "debug": "^3.0.0",
     "fuse-bindings": "^2.11.1"
   },
   "devDependencies": {

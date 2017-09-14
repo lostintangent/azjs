@@ -378,8 +378,10 @@ exports.login = (
     suppressBrowser
   })
     .then(({ credentials, interactive, subscriptions }) => {
+      const { accessToken, refreshToken } = credentials.tokenCache._entries[0];
       state = {
-        accessToken: credentials.tokenCache._entries[0].accessToken,
+        accessToken,
+        refreshToken,
         credentials,
         interactive
       };

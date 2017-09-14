@@ -1,24 +1,24 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch (az-login)",
-            "program": "${workspaceRoot}/packages/az-login/examples/index.js",
-            "protocol": "inspector",
-            "env": {
-                "azureServicePrincipalClientId": "",
-                "azureSubId": ""
-            }
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch (kudu-fs)",
-            "program": "${workspaceRoot}/packages/kudu-fs/examples/index.js",
-            "protocol": "inspector",
-            "console": "integratedTerminal"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch (az-login)",
+      "program": "${workspaceRoot}/packages/az-login/examples/index.js",
+      "protocol": "inspector",
+      "env": {
+        "azureServicePrincipalClientId": "",
+        "azureSubId": ""
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch (kudu-fs)",
+      "program": "${workspaceRoot}/packages/kudu-fs/examples/index.js",
+      "protocol": "inspector",
+      "console": "integratedTerminal"
+    }
+  ]
 }

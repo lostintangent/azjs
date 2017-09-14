@@ -5,7 +5,7 @@ const { login } = require("az-login");
 
 !(async function() {
   const { clientFactory } = await login();
-  const kuduClient = clientFactory(kudu, "agreeable-grass-6360");
+  const kuduClient = clientFactory(kudu, "halting-mountain-3922");
   const kuduFS = require("../");
 
   try {

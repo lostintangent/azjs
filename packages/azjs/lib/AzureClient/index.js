@@ -305,7 +305,7 @@ module.exports = class AzureClient {
       );
       console.log(green`Press ${"CTRL+C"} to unmount it`);
       process.on("SIGINT", () => {
-        unmount();
+        unmount(() => process.exit());
       });
     });
   }

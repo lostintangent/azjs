@@ -249,3 +249,5 @@ The `azjs` CLI defaults to using an interactive login experience, in order to pr
 * **azureServicePrincipalTenantId / ARM_TENANT_ID** - The ID of the tenant that the service principal was created in
 
 > These are the same environment variables that are expected from the [Serverless](https://serverless.com/framework/docs/providers/azure/guide/credentials/) experience for Azure Functions (`azure*`), and the Terraform Azure builder (`ARM*`), so if you've already set these environment variables in order to use one or both of these tools, then `azjs` will automatically use the same credentials.
+dd
+ddd
