@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - "8"
+  - "10"
 
 # Add support for enabling Greenkeeper to 
 # update the Yarn lockfile, in addition to
